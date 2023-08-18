@@ -1,0 +1,21 @@
+.FormSection + .FormSection {
+  margin-top: 20px;
+}
+
+.FormSectionTitle {
+  display: flex;
+  gap: 10px;
+}
+
+.FormSectionTitle .ant-avatar {
+  width: 30px;
+  height: 30px;
+  background: #758fce;
+  font-size: 18px;
+}
+
+.FormSectionTitle h1 {
+  margin-bottom: 0;
+  line-height: 30px;
+  color: #334d5b;
+}
