@@ -1,6 +1,6 @@
 # filename: cc_RNN.py
 
-from training_ground import *
+from Archive.training_ground import *
 from util import *
 import time
 

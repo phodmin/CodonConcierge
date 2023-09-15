@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from Bio.Seq import Seq
+import statistics
 # from Bio.Alphabet import IUPAC
 
 def parse_amino_acid_fasta(file_path):
@@ -65,6 +66,46 @@ def get_longest_cds_length_from_parsed_records(records):
             print("Gene symbol variant:", longest_record["gene_symbol_variant"])
     
     return longest_length
+
+def get_sequence_lengths(records):
+    return [len(record["sequence"]) for record in records if "sequence" in record]
+
+import statistics
+
+def generate_statistical_report(lengths):
+    # Median
+    median_length = statistics.median(lengths)
+    
+    # Mean
+    mean_length = statistics.mean(lengths)
+    
+    # Mode (catching mode exceptions because the mode might not exist for some datasets)
+    try:
+        mode_length = statistics.mode(lengths)
+    except statistics.StatisticsError:
+        mode_length = "No unique mode found"
+    
+    # Minimum and Maximum Length
+    min_length = min(lengths)
+    max_length = max(lengths)
+    
+    # Standard Deviation
+    std_dev_length = statistics.stdev(lengths)
+    
+    # Printing the report
+    report = f"""
+    Statistical Report on Sequence Lengths:
+    ---------------------------------------
+    Median Length:          {median_length}
+    Mean (Average) Length:  {mean_length}
+    Mode Length:            {mode_length}
+    Minimum Length:         {min_length}
+    Maximum Length:         {max_length}
+    Standard Deviation:     {std_dev_length:.2f}
+    """
+    
+    return report
+
 
 def count_sequences_longer_than(records, threshold_length=10000):
     """
@@ -146,6 +187,32 @@ def plot_sequence_length_distribution(records):
     plt.grid(axis='y', linestyle='--')
     plt.show()
 
+def get_sequence_lengths_and_names(records):
+    return [(record["gene_name"], len(record["sequence"])) for record in records if "sequence" in record]
+
+def generate_report_for_extremes(lengths_and_names):
+    # Sorting the sequences based on their lengths
+    sorted_lengths_and_names = sorted(lengths_and_names, key=lambda x: x[1])
+    
+    # Getting the 10 shortest and 10 longest sequences
+    ten_shortest = sorted_lengths_and_names[:10]
+    ten_longest = sorted_lengths_and_names[-10:]
+    
+    # Creating the report
+    report = "Report on Extremes of Sequence Lengths:\n"
+    report += "---------------------------------------\n"
+    
+    report += "10 Shortest Sequences:\n"
+    for name, length in ten_shortest:
+        report += f"{name}: {length} bases\n"
+    
+    report += "\n10 Longest Sequences:\n"
+    for name, length in ten_longest:
+        report += f"{name}: {length} bases\n"
+    
+    return report
+
+
 # Plot only up to X length
 def plot_sequence_length_distribution_v2(records, max_length):
     lengths = []
@@ -166,6 +233,52 @@ def plot_sequence_length_distribution_v2(records, max_length):
     plt.grid(axis='y', linestyle='--')
     plt.show()
 
+def get_median_sequence_length(records):
+    lengths = [len(record["sequence"]) for record in records if "sequence" in record]
+    sorted_lengths = sorted(lengths)
+
+    # If the total number of sequences is even
+    if len(sorted_lengths) % 2 == 0:
+        middle1 = sorted_lengths[len(sorted_lengths) // 2 - 1]
+        middle2 = sorted_lengths[len(sorted_lengths) // 2]
+        return (middle1 + middle2) / 2  # Return the average of the two middle numbers
+    # If the total number of sequences is odd
+    else:
+        return sorted_lengths[len(sorted_lengths) // 2]
+
+def generate_statistical_report(lengths):
+    # Median
+    median_length = statistics.median(lengths)
+    
+    # Mean
+    mean_length = statistics.mean(lengths)
+    
+    # Mode (catching mode exceptions because the mode might not exist for some datasets)
+    try:
+        mode_length = statistics.mode(lengths)
+    except statistics.StatisticsError:
+        mode_length = "No unique mode found"
+    
+    # Minimum and Maximum Length
+    min_length = min(lengths)
+    max_length = max(lengths)
+    
+    # Standard Deviation
+    std_dev_length = statistics.stdev(lengths)
+    
+    # Printing the report
+    report = f"""
+    Statistical Report on Sequence Lengths:
+    ---------------------------------------
+    Median Length:          {median_length}
+    Mean (Average) Length:  {mean_length}
+    Mode Length:            {mode_length}
+    Minimum Length:         {min_length}
+    Maximum Length:         {max_length}
+    Standard Deviation:     {std_dev_length:.2f}
+    """
+    
+    return report
 
 def plot_log_sequence_length_distribution(records):
     lengths = []
@@ -295,6 +408,18 @@ if __name__ == "__main__":
     #plot_sequence_length_distribution_v2(parsed_records,10000)
 
     #-------
+    # MEDIAN
+    #median_length = get_median_sequence_length(parsed_records)
+    #print(f"Median sequence length: {median_length}")
 
-    print_long_sequences_count(parsed_records, 0000,1000, 100)
+    lengths = get_sequence_lengths(parsed_records)
+    report = generate_statistical_report(lengths)
+    print(report)
+
+    lengths_and_names = get_sequence_lengths_and_names(parsed_records)
+    report = generate_report_for_extremes(lengths_and_names)
+    print(report)
+
+
+    #print_long_sequences_count(parsed_records, 0000,1000, 100)
     #plot_log_sequence_length_distribution(parsed_records)
