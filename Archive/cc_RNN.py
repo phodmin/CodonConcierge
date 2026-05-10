@@ -1,7 +1,7 @@
 # filename: cc_RNN.py
 
 from Archive.training_ground import *
-from util import *
+from Archive.util import *
 import time
 
 class RNNModel(BaseModel):

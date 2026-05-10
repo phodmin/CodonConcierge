@@ -12,7 +12,7 @@ from torch.nn.utils.rnn import pad_sequence
 
 # Custom modules
 # from util import amino_acid_to_codon, load_sequences, one_hot_encode, collate_fn
-from util import *
+from Archive.util import *
 
 
 def load_and_split_data():

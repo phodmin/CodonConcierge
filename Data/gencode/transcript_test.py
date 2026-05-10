@@ -1,4 +1,4 @@
-from util import *
+from Archive.util import *
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -70,8 +70,6 @@ def get_longest_cds_length_from_parsed_records(records):
 def get_sequence_lengths(records):
     return [len(record["sequence"]) for record in records if "sequence" in record]
 
-import statistics
-
 def generate_statistical_report(lengths):
     # Median
     median_length = statistics.median(lengths)
@@ -106,6 +104,15 @@ def generate_statistical_report(lengths):
     
     return report
 
+def count_protein_coding_sequences(records):
+    """
+    Count the number of protein coding sequences (CDS) in the provided records.
+    """
+    cds_count = 0
+    for record in records:
+        if "CDS" in record:
+            cds_count += 1
+    return cds_count
 
 def count_sequences_longer_than(records, threshold_length=10000):
     """
@@ -211,7 +218,6 @@ def generate_report_for_extremes(lengths_and_names):
         report += f"{name}: {length} bases\n"
     
     return report
-
 
 # Plot only up to X length
 def plot_sequence_length_distribution_v2(records, max_length):
@@ -412,13 +418,17 @@ if __name__ == "__main__":
     #median_length = get_median_sequence_length(parsed_records)
     #print(f"Median sequence length: {median_length}")
 
-    lengths = get_sequence_lengths(parsed_records)
-    report = generate_statistical_report(lengths)
-    print(report)
+    #-------
+    # lengths = get_sequence_lengths(parsed_records)
+    # report = generate_statistical_report(lengths)
+    # print(report)
 
-    lengths_and_names = get_sequence_lengths_and_names(parsed_records)
-    report = generate_report_for_extremes(lengths_and_names)
-    print(report)
+    # lengths_and_names = get_sequence_lengths_and_names(parsed_records)
+    # report = generate_report_for_extremes(lengths_and_names)
+    # print(report)
+    #-------
+    cds_count = count_protein_coding_sequences(parsed_records)
+    print(f"Number of protein coding sequences (CDS): {cds_count}")
 
 
     #print_long_sequences_count(parsed_records, 0000,1000, 100)

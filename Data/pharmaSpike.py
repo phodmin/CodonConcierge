@@ -1,4 +1,4 @@
-from util import *
+from Archive.util import *
 from Bio import SeqIO
 
 # Define the Spike Protein Covid-19 vaccine sequence source

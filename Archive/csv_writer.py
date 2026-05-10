@@ -1,7 +1,7 @@
 from Bio import SeqIO
 import pandas as pd
 import csv
-from util import *
+from Archive.util import *
 
 # 1. Simple Parsing
 simple_parsed_records = basic_fasta_parser(gencode_source_file_path)

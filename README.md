@@ -1,6 +1,4 @@
-# Readme file for (working title) 'Optimising the Consequences of Life'
-# (working title of transformed model chapter) 'Transforming the Consequences of Life'
-# (working title of diffusion model chapter) 'Diffusing the Consequences of Life'
+# Unsupervised ML for mRNA sequence design
 
 # Interpreting the defline:
 >ENST00000641515.2|ENSG00000186092.7|OTTHUMG00000001094.4|OTTHUMT00000003223.4|OR4F5-201|OR4F5|2618|UTR5:1-60|CDS:61-1041|UTR3:1042-2618|
